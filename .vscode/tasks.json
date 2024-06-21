@@ -8,7 +8,7 @@
             "args": [],
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": false
             }
         },
         {
@@ -24,11 +24,31 @@
         {
             "label": "clean",
             "type": "shell",
-            "command": "make clean",
+            "command": "make clean -C build",
             "args": [],
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": false
+            }
+        },
+        {
+            "label": "realclean",
+            "type": "shell",
+            "command": "rm -rf build bin-int bin",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "bear",
+            "type": "shell",
+            "command": "bear -- make -j16 -C build",
+            "args": [],
+            "group": {
+                "kind": "build",
+                "isDefault": false
             }
         },
         {

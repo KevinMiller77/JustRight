@@ -1,19 +1,24 @@
 
 {
-    "name": "(Mac ARM) Debug",
-    "type": "cppdbg",
-    "request": "launch",
-    "program": "${workspaceFolder}/bin/Debug/macosx/ARM64/justrightc/justrightc",
-    "args": [],
-    "stopAtEntry": false,
-    "cwd": "${workspaceFolder}",
-    "environment": [
+    "version": "0.2.0",
+    "configurations": [
         {
-            "name": "JR_TEST",
-            "value": "1"
-        },
-    ],
-    "externalConsole": false,
-    "MIMode": "lldb",
-    "targetArchitecture": "arm64"
+            "name": "(Mac ARM) Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/macosx/ARM64/justrightc/justrightc",
+            "args": ["test/test.jr"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "JR_TEST",
+                    "value": "1"
+                },
+            ],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "targetArchitecture": "arm64"
+        }
+    ]
 }
