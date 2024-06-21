@@ -1,0 +1,20 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-DDEBUG",
+      "-I../include",
+      "-isystem",
+      "../include",
+      "-g",
+      "-std=c++17",
+      "-c",
+      "-o",
+      "../bin-int/Debug/macosx/ARM64/justrightc/x64/main.o",
+      "../src/main.cpp"
+    ],
+    "directory": "/Users/kevinmiller/dev/justright/build",
+    "file": "/Users/kevinmiller/dev/justright/src/main.cpp",
+    "output": "/Users/kevinmiller/dev/justright/bin-int/Debug/macosx/ARM64/justrightc/x64/main.o"
+  }
+]

@@ -7,7 +7,7 @@
 -- Project Architecture: Arm64
 -- Project Configuration: Debug, Release (define DEBUG for Debug)
 
-workspace "JustRight"
+workspace "justrightc"
     architecture "arm64"
     configurations { "Debug", "Release" }
     platforms { "x64", "x86", "Arm64" }
@@ -20,15 +20,15 @@ workspace "JustRight"
 
 project "justrightc"
     kind "ConsoleApp"
-    language "C"
+    language "C++"
     targetname "justrightc"
 
-    cdialect "C11"
+    cppdialect "C++17"
     
     targetdir "bin/%{cfg.buildcfg}/%{cfg.system}/%{cfg.architecture}/%{prj.name}"
     objdir "bin-int/%{cfg.buildcfg}/%{cfg.system}/%{cfg.architecture}/%{prj.name}"
 
-    files { "src/**.c" }
+    files { "src/**.cpp" }
     
     includedirs { "include" }
     externalincludedirs { "include" }
