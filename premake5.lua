@@ -32,6 +32,7 @@ project "justrightc"
     
     includedirs { "include" }
     externalincludedirs { "include" }
+    buildoptions { "-O2" }
 
     filter "configurations:Debug"
         defines { "DEBUG" }
