@@ -1,0 +1,170 @@
+/* 
+    Import is done with the `use` keyword. You can selectively import only members you need with the `exposing {}` keyword.
+    The members of the used library are exposed directly unless using the `as` keyword, 
+    then the library is given a namespace of the provided name.
+*/
+
+// Exposes everything by default ie. list, set, etc.
+use std.collections
+
+// Exposes everything in std.memory as Memory namespace, usage would look like Memory::malloc()
+use std.memory as Memory
+
+// Exposes symbols matching wildcard, (ie. print, printf, println, etc)
+use std.io           exposing { print* }
+
+// Exposes only open and read in namespace File, ie. File::open(), File::read()
+use std.file as File exposing { open, read } 
+
+// Callable is the type of a closure
+use std.closures     exposing { callable }
+
+/*
+    Class member functions are public by default and can be marked private, protected, or explicitly public (for fun)
+    Classes must have a default constructor as shown below parameters are defined after the classname. 
+    On construction call, the classes `init` method is called. Parameters defined in constructor signature 
+    with the `private`, `protected`, or `public` keyword become member variables of the class.
+*/
+class Example(
+    private m_SomeMemberVariable: string,   // Becomes a member variable
+    m_SomeTransientParam: uint              // Does not become a member variable, only usable within init
+) {
+    // Other members may be defined outside of the primary constructor inputs and 
+    // MUST be initialized during the primary construtor
+    protected m_UsableByClassesThatOverrideMe: int;
+
+    // Default constructor
+    init {
+        for (i: uint in (0...m_SomeTransientParam)) {
+            println(m_SomeMemberVariable);
+        }
+
+        m_UsableByClassesThatOverrideMe = 0b1010 + 0x0BADBEEF + 'G'; // Valid
+    }
+
+    // Secondary constructor must call the primary constructor
+    constructor(myFavoriteString: string) {
+        println("Secondary constructor called");
+        init("Bubbles", 3) // `init` is reserved and always calls the primary constructor
+    }
+
+    fun SameSame(): int {
+        return 69;
+    }
+
+    /* 
+        The `open` keyword means that this is overridable
+        We will get into what happens when you want pure virtuals later
+        That will be a different type of class altogether `open class`
+    */
+    open fun OverrideMe(): string {
+        return "Base class";
+    }
+
+    /*
+        Closures are defined with the type of callable<returnType, param1Type, param2Type, ...>
+        They can be called like normal functions
+    */
+    static fun CallClosure(callMe: callable<int, float>): int {
+        return callMe(1.0f);
+    }
+
+    static fun SayHello(): string {
+        print("How");
+        println(" are you?");
+    }
+}
+
+// To override a class you add `: BaseClassName` after your primary constructor params
+class Son(
+    m_YourMomsFavoriteString: string
+): Example {
+    init {
+        // `super` must be called to init base class data
+        // There are going to be more details here but not just yet
+        super(m_YourMomsFavoriteString, 5);
+
+        // Base class memeber variable marked as protected can be used after super() call, but not before
+        m_UsableByClassesThatOverrideMe 
+    }
+
+    // Overriden functions can be marked with `open` to allow further overriding from
+    // subsequent derived classes. It `open` is not present, subsequent derived classes
+    // will instead use the nearest one (ie. closest base class w/o `open` keyword)
+    fun OverrideMe(): string {
+        return "Derived class";
+    }
+}
+
+// Functions are defined with fun keyword
+fun main(argc: int, argv: list<string>): int {
+    let x = 0xABC;          // let allows type inferrence, still typechecked @ compile time
+    let y: float = 0.05f;   // Or you can set the type yourself, also semicolons optional everywhere ;)
+
+    if (y is int) { // Compile time type inferrence
+        printf("This would be compiled out entirely")
+    }
+
+    // Static class members are obviously static 
+    Example::SayHello()
+    Example::CallClosure { x: float ->
+        return toInt(x)
+    }
+
+    // Construction can happen inline or explicitly
+    // These are made on the stack, we will get to heap & ptrs later
+    let ex: Example("Cheeseburger", 5);
+    let sa = Son("Your mom said this was her favorite string")
+
+    ex.SameSame() // Returns 69
+    sa.SameSame() // Calls Example::SameSame(), returns 69
+
+    ex.OverrideMe() // returns "Base class"
+    sa.OverrideMe() // returns "Derived class"
+
+    // Simple pointer stuff
+    int* stackAllocPtr = new int;
+    *stackAllocPtr = 5;
+    delete stackAllocPtr // Dealloc
+
+    int* heapAllocPtr = Memory::malloc(sizeof(int) * 500); // Yes, pointer type casting can be done manually if you want
+    Memory::free(heapAllocPtr)
+
+    // Collections are just wrappers around memory operations, 
+    // The following is equivalent to the above stack and heap allocation
+
+    list<int> stackAllocList = list<int>(20); // Dynamic size, but you set an initial if you want
+    // OR 
+    list<int> stackAllocList = new list<int>(20);
+
+    stackAllocList.push(-400);
+    stackAllocList.forEach { i: int -> // Built in closures for most collections
+        printf("%d", i);
+    }.then {
+        println();
+    }
+    println("List pointer location: " + stackAllocList.ptr) // Automatic string conversion for all built in types
+    delete stackAllocList;
+
+    // heap is build in static function for collections
+    list<int> heapAllocSet = set<int>::heap(20); 
+    if (heapAllocSet.ptr != nullptr) {
+        heapAllocSet::free(); // Underlying pointer becomes nullptr
+    }
+
+    // Or give it the pointer yourself, it can take over mem management
+    // This is done to easily convert C/C++ function bindings that return ptrs to justright conventions
+    int* myHeapInts = (int*)Memory::malloc(sizeof(int) * 500);
+    list<int> heapAllocList = list<int>(myHeapInts, 500) // Give it the number of elements
+    for (i: uint in (0...heapAllocList.size())) {
+        heapAllocList[i] = 42;
+
+        // Can also be done like
+        int* elementPtr = heapAllocList.ptr + (sizeof(int) * i);
+        *elementPtr = 42;
+    }
+    heapAllocList::free();
+    heapAllocList::free(); // Will not double free, will instead output to stdout w/ warn that a double free was attempted
+
+    return 0
+}
