@@ -6,37 +6,8 @@
 #include "ref.h"
 
 namespace JR::Tokenizer {
-    enum class TokenType {
-        STRING_LITERAL,
-        NUMERIC_LITERAL,
-        OPERATOR,
-    };
-
-    struct Token {
-        std::string content;
-        TokenType type;
-
-        size_t line;
-        size_t column;
-
-        std::string ToString() {
-            std::string typeStr = "";
-            switch (type) {
-                case TokenType::STRING_LITERAL:
-                    typeStr = "STRING_LITERAL";
-                    break;
-                case TokenType::NUMERIC_LITERAL:
-                    typeStr = "NUMERIC_LITERAL";
-                    break;
-                case TokenType::OPERATOR:
-                    typeStr = "OPERATOR";
-                    break;
-            }
-
-            return "Token(\"" + content + "\", " + typeStr + ", " + std::to_string(line) + ", " + std::to_string(column) + ")";
-        }
-    };
-
+    struct Token;
+    
     /**
      * @brief Initialize the Tokenizer with a file path
      * 
@@ -81,14 +52,29 @@ namespace JR::Tokenizer {
         std::string m_Column;
     };
 
-    /**
-     * @brief An unknown symbol was encountered by the Tokenizer
-     * 
-    */
-    class UnknownSymbolException : public TokenizerException {
-    public:
-        UnknownSymbolException(std::string filepath, size_t line, size_t column)
-            : TokenizerException(filepath, "Unknown symbol", line, column) {}
+    enum class TokenType {
+        NONE,
+        COMMENT, NEWLINE, WHITESPACE,
+        CHAR_LITERAL, STRING_LITERAL, INTEGER_LITERAL, BOOLEAN_LITERAL, FLOAT_LITERAL,
+        KEYWORD, TYPE, IDENTIFIER, OPERATOR,
+        COLON, SEMICOLON, SEPERATOR,
+        OPEN_PARAM, CLOSE_PARAM,
+        OPEN_SCOPE, CLOSE_SCOPE,
+        OPEN_BRACKET, CLOSE_BRACKET,
+        OPEN_ANGLE, CLOSE_ANGLE,
+    };
+    std::string TokenTypeToString(TokenType type);
+    
+    struct Token {
+        std::string content;
+        TokenType type;
+
+        size_t line;
+        size_t column;
+
+        std::string ToString() {
+            return "Token(\"" + content + "\", " + TokenTypeToString(type) + ", " + std::to_string(line) + ", " + std::to_string(column) + ")";
+        }
     };
 }
 

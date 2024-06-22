@@ -7,7 +7,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/Debug/macosx/ARM64/justrightc/justrightc",
-            "args": ["test/test.jr"],
+            "args": ["test/hw.jr"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [
