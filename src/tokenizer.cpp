@@ -30,14 +30,13 @@ namespace JR::Tokenizer {
     )";
 
     std::string operators = R"(
-        (\.\.\.)|\.|\:\:|
-        \+|\-|\*|\/|\%|
-        \=|\+\=|\-\=|\*\=|\/\=|\%\=|\&\=|\|\=|\^\=|\<\<\=|\>\>\=|
-        \+\+|\-\-|
-        \=\=|\!\=|\<|\>|\<\=|\>\=|
-        \&\&|\|\||\!|
-        \&|\||\^|\~|\<\<|\>\>|
-        \?|:|new|delete
+        (\.\.\.)|(\.)|(::)|
+        (\>\>\=)|(\<\<\=)|(\+\=)|(\-\=)|(\*\=)|(\/\=)|(\%\=)|(\&\=)|(\|\=)|(\^\=)|(\~\=)|
+        (\+\+)|(\-\-)|(\>\=)|(\<\=)|(\=\=)|(\!\=)|(\&\&)|(\|\|)|
+        (\<\<)|(\>\>)|
+        (\+)|(\-)|(\*)|(\/)|(\%)|
+        (\=)|(\!)|(\<)|(\>)|(\&)|(\|)|(\^)|(\~)|
+        (\?)|(:)|(new)|(delete)
     )";
 
     typedef std::pair<std::regex, TokenType> Rule;
@@ -53,11 +52,10 @@ namespace JR::Tokenizer {
         { std::regex("^([0-9]+)"),                                  TokenType::INTEGER_LITERAL},
         { std::regex("^(true|false)"),                              TokenType::BOOLEAN_LITERAL},
         { std::regex("^([0-9]+\\.[0-9]+f?)"),                      TokenType::FLOAT_LITERAL},
-        { std::regex(toRegex(keywords)),                        TokenType::KEYWORD},
-        { std::regex(toRegex(types)),                           TokenType::TYPE},
+        // { std::regex(toRegex(keywords)),                        TokenType::KEYWORD},
+        // { std::regex(toRegex(types)),                           TokenType::TYPE},
         { std::regex("^([a-zA-Z_][a-zA-Z0-9_\\-\\*]*)"),            TokenType::IDENTIFIER},
         { std::regex(toRegex(operators)),                        TokenType::OPERATOR},
-        { std::regex("^(:)"),                                       TokenType::COLON},
         { std::regex("^(;)"),                                       TokenType::SEMICOLON},
         { std::regex("^(,)"),                                       TokenType::SEPERATOR},
         { std::regex("^(\\()"),                                     TokenType::OPEN_PARAM},
@@ -156,7 +154,16 @@ namespace JR::Tokenizer {
                     }
                 }
 
-
+                // If we see an identifier, check if the entire content is present in the keywords or types regex
+                if (token->type == TokenType::IDENTIFIER) {
+                    if (std::regex_match(token->content, std::regex(toRegex(keywords)))) {
+                        token->type = TokenType::KEYWORD;
+                    } else if (std::regex_match(token->content, std::regex(toRegex(types)))) {
+                        token->type = TokenType::TYPE;
+                    } else if (std::regex_match(token->content, std::regex(toRegex(operators)))) {
+                        token->type = TokenType::OPERATOR;
+                    }
+                }
 
                 return token;
             }
@@ -230,7 +237,6 @@ namespace JR::Tokenizer {
             case TokenType::TYPE                : return "TYPE";
             case TokenType::IDENTIFIER          : return "IDENTIFIER";
             case TokenType::OPERATOR            : return "OPERATOR";
-            case TokenType::COLON               : return "COLON";
             case TokenType::SEMICOLON           : return "SEMICOLON";
             case TokenType::SEPERATOR           : return "SEPERATOR";
             case TokenType::OPEN_PARAM          : return "OPEN_PARAM";
