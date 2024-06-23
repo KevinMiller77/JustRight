@@ -3,3 +3,5 @@ bin-int
 build
 .cache
 *.csv
+
+*randomized.jr
