@@ -199,6 +199,16 @@ namespace JR::Tokenizer {
         m_Initialized = true;
     }
 
+    void Reset() {
+        m_Initialized = false;
+        m_Filepath = "";
+        m_Content = "";
+        m_Line = 1;
+        m_Col = 1;
+        m_Index = 0;
+        m_CurrentToken = nullptr;
+    }
+
     Ref<Token> PeekToken() {
         if (!m_Initialized) {
             throw std::runtime_error("Tokenizer not initialized");

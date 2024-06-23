@@ -16,6 +16,12 @@ namespace JR::Tokenizer {
     void Init(std::string filepath);
 
     /**
+     * @brief Reset the tokenizer
+     * 
+     */
+    void Reset();
+
+    /**
      * @brief Peek at the next token from the file
      * 
     */
