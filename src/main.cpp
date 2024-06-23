@@ -1,9 +1,10 @@
 #include <tokenizer.h>
+
+#define DEBUG_LEVEL DEBUG_LEVEL_TRACE
 #include <log.h>
 
 #include <exception>
 #include <iostream>
-#include <fstream>
 
 using namespace JR;
 
@@ -14,6 +15,7 @@ int main(int argc, char *argv[]) {
     }
 
     std::string filepath = argv[1];
+
     try {
         LOG_TRACE("Initializing tokenizer\n");
         Tokenizer::Init(filepath);
@@ -38,12 +40,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Print token information to a csv file
-    std::string csv_file = filepath + ".csv";
-    std::ofstream ofs(csv_file);
-    ofs << "Type,Value,Line,Column\n";
     for (auto &token : tokens) {
-        ofs << Tokenizer::TokenTypeToString(token->type) << "," << token->content << "," << token->line << "," << token->column << "\n";
+        LOG_TRACE("Found tokens: " + token->ToString());
     }
 
     return 0;
