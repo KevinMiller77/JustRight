@@ -8,6 +8,47 @@
       "../include",
       "-g",
       "-std=c++17",
+      "-O2",
+      "-DTESTS_ROOT_DIR=/Users/kevinmiller/dev/justright/tests",
+      "-c",
+      "-o",
+      "../bin-int/Debug/macosx/ARM64/justrightc-tests/x64/common.test.o",
+      "../tests/common.test.cpp"
+    ],
+    "directory": "/Users/kevinmiller/dev/justright/build",
+    "file": "/Users/kevinmiller/dev/justright/tests/common.test.cpp",
+    "output": "/Users/kevinmiller/dev/justright/bin-int/Debug/macosx/ARM64/justrightc-tests/x64/common.test.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-DDEBUG",
+      "-I../include",
+      "-isystem",
+      "../include",
+      "-g",
+      "-std=c++17",
+      "-O2",
+      "-DTESTS_ROOT_DIR=/Users/kevinmiller/dev/justright/tests",
+      "-c",
+      "-o",
+      "../bin-int/Debug/macosx/ARM64/justrightc-tests/x64/test.o",
+      "../tests/test.cpp"
+    ],
+    "directory": "/Users/kevinmiller/dev/justright/build",
+    "file": "/Users/kevinmiller/dev/justright/tests/test.cpp",
+    "output": "/Users/kevinmiller/dev/justright/bin-int/Debug/macosx/ARM64/justrightc-tests/x64/test.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-DDEBUG",
+      "-I../include",
+      "-isystem",
+      "../include",
+      "-g",
+      "-std=c++17",
+      "-O2",
       "-c",
       "-o",
       "../bin-int/Debug/macosx/ARM64/justrightc/x64/main.o",
@@ -16,5 +57,44 @@
     "directory": "/Users/kevinmiller/dev/justright/build",
     "file": "/Users/kevinmiller/dev/justright/src/main.cpp",
     "output": "/Users/kevinmiller/dev/justright/bin-int/Debug/macosx/ARM64/justrightc/x64/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-DDEBUG",
+      "-I../include",
+      "-isystem",
+      "../include",
+      "-g",
+      "-std=c++17",
+      "-O2",
+      "-DTESTS_ROOT_DIR=/Users/kevinmiller/dev/justright/tests",
+      "-c",
+      "-o",
+      "../bin-int/Debug/macosx/ARM64/justrightc-tests/x64/tokenizer.o",
+      "../src/tokenizer.cpp"
+    ],
+    "directory": "/Users/kevinmiller/dev/justright/build",
+    "file": "/Users/kevinmiller/dev/justright/src/tokenizer.cpp",
+    "output": "/Users/kevinmiller/dev/justright/bin-int/Debug/macosx/ARM64/justrightc-tests/x64/tokenizer.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-DDEBUG",
+      "-I../include",
+      "-isystem",
+      "../include",
+      "-g",
+      "-std=c++17",
+      "-O2",
+      "-c",
+      "-o",
+      "../bin-int/Debug/macosx/ARM64/justrightc/x64/tokenizer.o",
+      "../src/tokenizer.cpp"
+    ],
+    "directory": "/Users/kevinmiller/dev/justright/build",
+    "file": "/Users/kevinmiller/dev/justright/src/tokenizer.cpp",
+    "output": "/Users/kevinmiller/dev/justright/bin-int/Debug/macosx/ARM64/justrightc/x64/tokenizer.o"
   }
 ]

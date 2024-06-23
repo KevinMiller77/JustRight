@@ -20,23 +20,29 @@
 #endif
 
 // Helper macro to support variable arguments
-#define LOG_FORMAT(level, fmt, ...) \
+#define LOG_FORMAT(level, ...) \
     do { \
         if (level <= DEBUG_LEVEL) { \
+            std::ostringstream os; \
             if (level == DEBUG_LEVEL_ERROR) { \
                 std::cerr << "\033[1;31m"; \
+                os << "[ERROR]"; \
             } else if (level == DEBUG_LEVEL_WARN) { \
                 std::cerr << "\033[1;33m"; \
+                os << "[WARN]"; \
             } else if (level == DEBUG_LEVEL_INFO) { \
                 std::cerr << "\033[1;32m"; \
+                os << "[INFO]"; \
             } else if (level == DEBUG_LEVEL_DEBUG) { \
                 std::cerr << "\033[1;34m"; \
+                os << "[DEBUG]"; \
+                os << __FILE__ << ":" << __LINE__; \
             } else if (level == DEBUG_LEVEL_TRACE) { \
                 std::cerr << "\033[1;37m"; \
+                os << __FILE__ << ":" << __LINE__; \
+                os << "[TRACE]"; \
             } \
-            std::ostringstream os; \
-            os << __FILE__ << ":" << __LINE__; \
-            os << " " << fmt << format_log(__VA_ARGS__) << std::endl; \
+            os << " " << format_log(__VA_ARGS__) << std::endl; \
             std::cerr << os.str(); \
             std::cerr << "\033[0m"; \
         } \
@@ -54,10 +60,10 @@ std::string format_log(Args&&... args) {
 }
 
 // Define specific macros for each debug level with optional tag
-#define LOG_ERROR(fmt, ...) LOG(DEBUG_LEVEL_ERROR, fmt, ##__VA_ARGS__)
-#define LOG_WARN(fmt, ...) LOG(DEBUG_LEVEL_WARN, fmt, ##__VA_ARGS__)
-#define LOG_INFO(fmt, ...) LOG(DEBUG_LEVEL_INFO, fmt, ##__VA_ARGS__)
-#define LOG_DEBUG(fmt, ...) LOG(DEBUG_LEVEL_DEBUG, fmt, ##__VA_ARGS__)
-#define LOG_TRACE(fmt, ...) LOG(DEBUG_LEVEL_TRACE, fmt, ##__VA_ARGS__)
+#define LOG_ERROR(...) LOG(DEBUG_LEVEL_ERROR, ##__VA_ARGS__)
+#define LOG_WARN(...) LOG(DEBUG_LEVEL_WARN, ##__VA_ARGS__)
+#define LOG_INFO(...) LOG(DEBUG_LEVEL_INFO, ##__VA_ARGS__)
+#define LOG_DEBUG(...) LOG(DEBUG_LEVEL_DEBUG, ##__VA_ARGS__)
+#define LOG_TRACE(...) LOG(DEBUG_LEVEL_TRACE, ##__VA_ARGS__)
 
 #endif // __LOG_H__
