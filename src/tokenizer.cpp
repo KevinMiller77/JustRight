@@ -54,7 +54,7 @@ namespace JR::Tokenizer {
         { std::regex("^([0-9]+\\.[0-9]+f?)"),                      TokenType::FLOAT_LITERAL},
         // { std::regex(toRegex(keywords)),                        TokenType::KEYWORD},
         // { std::regex(toRegex(types)),                           TokenType::TYPE},
-        { std::regex("^([a-zA-Z_][a-zA-Z0-9_\\-\\*]*)"),            TokenType::IDENTIFIER},
+        { std::regex("^(^[a-zA-Z_][a-zA-Z0-9_]*)"),                 TokenType::IDENTIFIER},
         { std::regex(toRegex(operators)),                        TokenType::OPERATOR},
         { std::regex("^(;)"),                                       TokenType::SEMICOLON},
         { std::regex("^(,)"),                                       TokenType::SEPERATOR},
