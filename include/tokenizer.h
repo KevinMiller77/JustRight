@@ -4,6 +4,7 @@
 #include <string>
 
 #include "ref.h"
+#include "kenum.h"
 
 namespace JR::Tokenizer {
     struct Token;
@@ -58,7 +59,8 @@ namespace JR::Tokenizer {
         std::string m_Column;
     };
 
-    enum class TokenType {
+    K_ENUM(
+        TokenType,
         NONE,
         COMMENT, NEWLINE, WHITESPACE,
         CHAR_LITERAL, STRING_LITERAL, INTEGER_LITERAL, BOOLEAN_LITERAL, FLOAT_LITERAL,
@@ -68,18 +70,17 @@ namespace JR::Tokenizer {
         OPEN_SCOPE, CLOSE_SCOPE,
         OPEN_BRACKET, CLOSE_BRACKET,
         OPEN_ANGLE, CLOSE_ANGLE,
-    };
-    std::string TokenTypeToString(TokenType type);
+    );
     
     struct Token {
         std::string content;
-        TokenType type;
+        TokenType::Enum type;
 
         size_t line;
         size_t column;
 
         std::string ToString() {
-            return "Token(\"" + content + "\", " + TokenTypeToString(type) + ", " + std::to_string(line) + ", " + std::to_string(column) + ")";
+            return "Token(\"" + content + "\", " + TokenType::Strings[type] + ", " + std::to_string(line) + ", " + std::to_string(column) + ")";
         }
     };
 }

@@ -39,7 +39,7 @@ namespace JR::Tokenizer {
         (\?)|(:)|(new)|(delete)
     )";
 
-    typedef std::pair<std::regex, TokenType> Rule;
+    typedef std::pair<std::regex, TokenType::Enum> Rule;
     const std::vector<Rule> s_Rules = {
         { std::regex("^(\\/\\/.*)(?:\r?\n|\r|$)"),                  TokenType::COMMENT},
         { std::regex("^(\\/\\*[\\s\\S]*?\\*\\/)"),                  TokenType::COMMENT},
@@ -47,15 +47,13 @@ namespace JR::Tokenizer {
         { std::regex("^([ \\t\\r\\f\\v]+)"),                        TokenType::WHITESPACE},
         { std::regex("^\"([^\"]*)\""),                              TokenType::STRING_LITERAL},
         { std::regex("^'([^']|\\\\')'"),                            TokenType::CHAR_LITERAL},
+        { std::regex("^(([0-9]+)\\.[0-9]+f?)"),                     TokenType::FLOAT_LITERAL},
         { std::regex("^(0x[0-9a-fA-F]+)"),                          TokenType::INTEGER_LITERAL},
         { std::regex("^(0b[01]+)"),                                 TokenType::INTEGER_LITERAL},
         { std::regex("^([0-9]+)"),                                  TokenType::INTEGER_LITERAL},
-        { std::regex("^(true|false)"),                              TokenType::BOOLEAN_LITERAL},
-        { std::regex("^([0-9]+\\.[0-9]+f?)"),                      TokenType::FLOAT_LITERAL},
-        // { std::regex(toRegex(keywords)),                        TokenType::KEYWORD},
-        // { std::regex(toRegex(types)),                           TokenType::TYPE},
-        { std::regex("^(^[a-zA-Z_][a-zA-Z0-9_]*)"),                 TokenType::IDENTIFIER},
-        { std::regex(toRegex(operators)),                        TokenType::OPERATOR},
+        { std::regex("^(true|false)"),                             TokenType::BOOLEAN_LITERAL},
+        { std::regex("^(^[a-zA-Z_][a-zA-Z0-9_]*)"),                TokenType::IDENTIFIER},
+        { std::regex(toRegex(operators)),                       TokenType::OPERATOR},
         { std::regex("^(;)"),                                       TokenType::SEMICOLON},
         { std::regex("^(,)"),                                       TokenType::SEPERATOR},
         { std::regex("^(\\()"),                                     TokenType::OPEN_PARAM},
@@ -232,7 +230,7 @@ namespace JR::Tokenizer {
         return token;
     }
 
-    std::string TokenTypeToString(TokenType type) {
+    std::string TokenTypeToString(TokenType::Enum type) {
         switch (type) {
             case TokenType::NONE                : return "NONE";
             case TokenType::COMMENT             : return "COMMENT";

@@ -13,7 +13,7 @@
 #define TESTS_ROOT_DIR .
 #endif
 
-int test_TokenizerSingleTokenType(std::string typeName, JR::Tokenizer::TokenType type) {
+int test_TokenizerSingleTokenType(std::string typeName, JR::Tokenizer::TokenType::Enum type) {
     std::string directory = XSTR(TESTS_ROOT_DIR);
 
     std::string inputFilepath = directory + "/artifacts/" + typeName + ".jr";
@@ -59,7 +59,7 @@ int test_TokenizerSingleTokenType(std::string typeName, JR::Tokenizer::TokenType
     std::ofstream ofs = std::ofstream(csvFilepath);
     ofs << "Type,Value,Line,Column";
     for (auto &token : tokens) {
-        ofs << JR::Tokenizer::TokenTypeToString(token->type) << ",";
+        ofs << JR::Tokenizer::TokenType::Strings[token->type] << ",";
         ofs << ((token->type == JR::Tokenizer::TokenType::SEPERATOR) ? std::string("\",\"") : token->content);
         ofs << "," << token->line << "," << token->column << "";
     }
@@ -75,7 +75,7 @@ int test_TokenizerSingleTokenType(std::string typeName, JR::Tokenizer::TokenType
     size_t lineNo = 0;
     for (size_t i = 0; i < tokens.size(); i++) {
         if (tokens[i]->type != type) {
-            LOG_TRACE("Skipping token of type " + JR::Tokenizer::TokenTypeToString(tokens[i]->type) + " with value " + tokens[i]->content);
+            LOG_TRACE("Skipping token of type " + JR::Tokenizer::TokenType::Strings[tokens[i]->type] + " with value " + tokens[i]->content);
             continue;
         }
 
@@ -95,7 +95,7 @@ int test_TokenizerSingleTokenType(std::string typeName, JR::Tokenizer::TokenType
             // It should be in file:line:col format
             std::string err = randomizedFilepath + ":" + std::to_string(tokens[i]->line) + ":" + std::to_string(tokens[i]->column);
             err += ": Expected \"" + lines[lineNo] + "\" but got \"" + tokens[i]->content + "\" ";
-            err += "is " + lines[lineNo] + " a valid " + JR::Tokenizer::TokenTypeToString(type) + " token?";
+            err += "is " + lines[lineNo] + " a valid " + JR::Tokenizer::TokenType::Strings[type] + " token?";
             LOG_ERROR(err.c_str());
             return 1;
         }
