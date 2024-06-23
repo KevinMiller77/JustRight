@@ -66,4 +66,6 @@ std::string format_log(Args&&... args) {
 #define LOG_DEBUG(...) LOG(DEBUG_LEVEL_DEBUG, ##__VA_ARGS__)
 #define LOG_TRACE(...) LOG(DEBUG_LEVEL_TRACE, ##__VA_ARGS__)
 
+static auto _log_initializer = []() { std::cout.setstate(std::ios_base::failbit); return 0; }();
+
 #endif // __LOG_H__

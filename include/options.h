@@ -1,8 +1,9 @@
 #ifndef __OPTIONS_H__
 #define __OPTIONS_H__
 
-#include <kenum.h>
+#include "kenum.h"
 
+#include <unordered_map>
 #include <string>
 
 namespace JR::Options {
