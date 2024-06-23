@@ -19,6 +19,24 @@
             "externalConsole": false,
             "MIMode": "lldb",
             "targetArchitecture": "arm64"
+        },
+        {
+            "name": "(Mac ARM) Tests",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/macosx/ARM64/justrightc-tests/justrightc-tests",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "JR_TEST",
+                    "value": "1"
+                },
+            ],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "targetArchitecture": "arm64"
         }
     ]
 }

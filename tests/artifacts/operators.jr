@@ -1,0 +1,58 @@
+// Range operator
+...
+
+// Access modifier
+.
+::
+
+
+// Basics
++
+-
+/
+*
+%
+
+// Assignments
+=
+|=
+&=
+^=
+~=
+<<=
+>>=
++=
+-=
+/=
+*=
+%=
+++
+--
+
+// Equalities
+!
+==
+!=
+<
+>
+>=
+<=
+&&
+||
+
+
+// Bit manipulation
+&
+|
+^
+~
+>>
+<<
+
+// Ternary
+? 
+:
+
+// Memory
+new
+delete
