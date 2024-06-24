@@ -1,36 +1,40 @@
-#include <fstream>
 #include <tokenizer.h>
 
 #define DEBUG_LEVEL DEBUG_LEVEL_TRACE
 #include <log.h>
-#include <options.h>
+#include <flags.h>
+#include <klib/kflags.h>
 
 #include <exception>
 #include <iostream>
+#include <fstream>
 
 using namespace JR;
 
 int main(int argc, char *argv[]) {
-    if (!Options::registerOptions(argc, argv)) {
-        std::cerr << "Invalid arguments\n" << std::endl;
-        Options::printHelp(argv[0]);
-    } 
-
-    if (Options::hasFlag(Options::OptionFlag::HELP)) {
-        Options::printHelp(argv[0]);
-        return 0;
+    if (!K::Flags::init(
+        argc, argv,
+        "<flags> <input.jr>",
+        s_FlagDefinitions)
+    ) {
+        return 1;
     }
 
-    if (Options::hasFlag(Options::OptionFlag::VERSION)) {
+    if (K::Flags::getFlag(Flags::VERSION).present) {
         std::cout << "JR Version 0.0.1" << std::endl;
         return 0;
     }
 
-    std::string filepath = Options::expectFlag(Options::OptionFlag::INPUT_FILE);
+    std::vector<std::string> inputFiles = K::Flags::getUnqualifiedFlags();
+    if (inputFiles.size() == 0) {
+        LOG_ERROR("No input file provided");
+        K::Flags::printHelp();
+        return 1;
+    }
 
     try {
         LOG_TRACE("Initializing tokenizer\n");
-        Tokenizer::Init(filepath);
+        Tokenizer::Init(inputFiles[0]);
     } catch (std::exception &e) {
         LOG_ERROR(e.what());
         return 1;
@@ -52,9 +56,10 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    if (Options::hasFlag(Options::OptionFlag::TOKENIZER_CSV_OUTPUT_FILE)) {
+    K::Flags::FlagData tokenizeToCsv = K::Flags::getFlag(Flags::TOKENIZER_CSV_OUTPUT_FILE);
+    if (tokenizeToCsv.present) {
         LOG_TRACE("Writing Tokenizer CSV file");
-        std::string csvFile = Options::expectFlag(Options::OptionFlag::TOKENIZER_CSV_OUTPUT_FILE);
+        std::string csvFile = tokenizeToCsv.value;
         std::ofstream file(csvFile);
         if (!file.is_open()) {
             LOG_ERROR("Could not open Tokenizer CSV file: " + csvFile);
@@ -68,7 +73,8 @@ int main(int argc, char *argv[]) {
         LOG_TRACE("Tokenizer CSV file written successfully");
     }
 
-    if (Options::hasFlag(Options::OptionFlag::TOKENIZER_OUTPUT_TO_CONSOLE)) {
+    K::Flags::FlagData tokenizeToConsole = K::Flags::getFlag(Flags::TOKENIZER_OUTPUT_TO_CONSOLE);
+    if (tokenizeToConsole.present) {
         LOG_TRACE("Printing tokens to console");
         for (auto &token : tokens) {
             std::cout << token->ToString() << std::endl;

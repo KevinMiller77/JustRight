@@ -1,5 +1,5 @@
-#ifndef __LOG_H__
-#define __LOG_H__
+#ifndef __K_LOG_H__
+#define __K_LOG_H__
 
 #include <iostream>
 #include <sstream>
@@ -66,4 +66,4 @@ std::string format_log(Args&&... args) {
 #define LOG_DEBUG(...) LOG(DEBUG_LEVEL_DEBUG, ##__VA_ARGS__)
 #define LOG_TRACE(...) LOG(DEBUG_LEVEL_TRACE, ##__VA_ARGS__)
 
-#endif // __LOG_H__
+#endif // __K_LOG_H__

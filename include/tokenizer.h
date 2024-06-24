@@ -4,7 +4,7 @@
 #include <string>
 
 #include "ref.h"
-#include "kenum.h"
+#include "klib/kenum.h"
 
 namespace JR::Tokenizer {
     struct Token;
@@ -61,7 +61,6 @@ namespace JR::Tokenizer {
 
     K_ENUM(
         TokenType,
-        NONE,
         COMMENT, NEWLINE, WHITESPACE,
         CHAR_LITERAL, STRING_LITERAL, INTEGER_LITERAL, BOOLEAN_LITERAL, FLOAT_LITERAL,
         KEYWORD, TYPE, IDENTIFIER, OPERATOR,

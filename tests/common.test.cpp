@@ -9,7 +9,7 @@ int randomizeFileLinesOutputtingNew(std::string filepath, std::string output) {
     // Open the file, randomize the lines, and write it to a temp file called <filename>.tmp.<extension>
     std::fstream file(filepath, std::ios::in | std::ios::out);
     if (!file.is_open()) {
-        std::cerr << "Error: Could not open file " << filepath << std::endl;
+        std::cout << "Error: Could not open file " << filepath << std::endl;
         return 1;
     }
 
@@ -27,7 +27,7 @@ int randomizeFileLinesOutputtingNew(std::string filepath, std::string output) {
 
     file.open(output, std::ios::out);
     if (!file.is_open()) {
-        std::cerr << "Error: Could not open file " << output << std::endl;
+        std::cout << "Error: Could not open file " << output << std::endl;
         return 1;
     }
 
@@ -42,7 +42,7 @@ int randomizeFileLinesOutputtingNew(std::string filepath, std::string output) {
 int getFileLines(std::string filepath, std::vector<std::string>& out) {
     std::fstream file(filepath, std::ios::in);
     if (!file.is_open()) {
-        std::cerr << "Error: Could not open file " << filepath << std::endl;
+        std::cout << "Error: Could not open file " << filepath << std::endl;
         return 1;
     }
 

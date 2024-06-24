@@ -1,12 +1,3 @@
--- Output directory: bin/{Configuration}/{OS}/{Arch}/{ProjectName}
--- Intermediate dir: obj/{Configuration}/{OS}/{Arch}/{ProjectName}
--- Workspace Name: JustRight
--- Project Name: justrightc
--- Project Kind: ConsoleApp
--- Project Language: C
--- Project Architecture: Arm64
--- Project Configuration: Debug, Release (define DEBUG for Debug)
-
 workspace "justrightc"
     architecture "arm64"
     configurations { "Debug", "Release" }
